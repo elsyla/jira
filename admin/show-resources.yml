@@ -1,0 +1,9 @@
+---
+- hosts: servers
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: show memory allocation
+    command: free -m
+  - name: show diskspace usage
+    command: df -h

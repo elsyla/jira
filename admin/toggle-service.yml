@@ -1,0 +1,8 @@
+---
+- include: stop-service.yml
+- include: backup-data.yml
+- include: backup-database.yml
+- include: update-data.yml
+- include: update-database.yml
+- include: restart-service.yml
+- include: toggle-service-status.yml

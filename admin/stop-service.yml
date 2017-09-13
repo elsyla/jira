@@ -1,0 +1,9 @@
+---
+- hosts: servers
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: stop service
+    systemd:
+      name: jira.service
+      state: stopped

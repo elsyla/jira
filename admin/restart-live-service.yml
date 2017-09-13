@@ -1,0 +1,22 @@
+---
+- hosts: servers
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: cat /proc/meminfo
+    command: cat /proc/meminfo
+  - name: show memory allocation
+    command: free -m
+  - name: show diskspace usage
+    command: df -h
+  - name: create thread dump
+    script: ./create_thread_dump.sh
+    ignore_errors: true
+  - name: stop service
+    shell: su -l jira -c /home/jira/jira/bin/stop-jira.sh
+    ignore_errors: true
+  - name: stop java
+    shell: sudo pkill -9 java
+    ignore_errors: true
+  - name: start service
+    shell: su -l jira -c /home/jira/jira/bin/start-jira.sh

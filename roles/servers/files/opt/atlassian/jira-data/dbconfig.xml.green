@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jira-database-config>
+  <name>defaultDS</name>
+  <delegator-name>default</delegator-name>
+  <database-type>oracle10g</database-type>
+  <jdbc-datasource>
+    <url>jdbc:oracle:thin:@green.com:1521:greendb</url>
+    <driver-class>oracle.jdbc.OracleDriver</driver-class>
+    <username>greenuser</username>
+    <password>greenpassword</password>
+    <pool-min-size>20</pool-min-size>
+    <pool-max-size>40</pool-max-size>
+    <pool-max-wait>30000</pool-max-wait>
+    <pool-max-idle>20</pool-max-idle>
+    <pool-test-on-borrow>false</pool-test-on-borrow>
+    <pool-test-while-idle>true</pool-test-while-idle>
+    <validation-query>select 1 from dual</validation-query>
+    <pool-remove-abandoned>true</pool-remove-abandoned>
+    <pool-remove-abandoned-timeout>300</pool-remove-abandoned-timeout>
+  </jdbc-datasource>
+</jira-database-config>

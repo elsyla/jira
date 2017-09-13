@@ -1,0 +1,7 @@
+---
+- hosts: servers
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: check blocked threads
+    script: ./check_blocked_threads.sh

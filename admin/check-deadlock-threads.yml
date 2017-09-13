@@ -1,0 +1,7 @@
+---
+- hosts: servers
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: check deadlock threads
+    script: ./check_deadlock_threads.sh

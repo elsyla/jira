@@ -1,0 +1,12 @@
+---
+- hosts: servers
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: create thread dump
+    script: ./create_thread_dump.sh
+    ignore_errors: true
+  - name: restart service
+    systemd:
+      name: jira.service
+      state: restarted

@@ -1,0 +1,12 @@
+---
+- hosts: dbservers
+  become: yes
+  become_user: postgres
+  become_method: sudo
+  tasks:
+  - name: dump active database
+    shell: ssh {{ groups['active_dbservers'][0] }} "pg_dump -c -C jiradb | bzip2 > /var/lib/pgsql/jiradb.active.dump"
+  - name: transfer dump of active database
+    shell: scp {{ groups['active_dbservers'][0] }}:/var/lib/pgsql/jiradb.active.dump /var/lib/pgsql/
+  - name: update inactive database
+    shell: bzcat /var/lib/pgsql/jiradb.active.dump | psql

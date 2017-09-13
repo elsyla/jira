@@ -1,0 +1,10 @@
+---
+- hosts: servers
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: clean diskspace
+    command: find /opt/atlassian/jira/logs/ /opt/atlassian/jira-data/export/ -type f -mtime +30 -delete
+    ignore_errors: true
+  - name: show diskspace usage
+    command: df -h

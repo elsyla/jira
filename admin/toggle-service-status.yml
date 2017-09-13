@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  tasks:
+  - name: update service status in redis
+    command: redis_cli.py --service jira --toggle_svc_status

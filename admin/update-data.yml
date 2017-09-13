@@ -1,0 +1,8 @@
+---
+- hosts: servers
+  become: yes
+  become_user: jira
+  become_method: sudo
+  tasks:
+  - name: update data
+    command: rsync -azvhq {{ groups['active_servers'][0] }}:/opt/atlassian/jira-data/ /opt/atlassian/jira-data --exclude-from /opt/archive/rsync-exclude-list.txt

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# list all hosts 
+
+redis_cli.py --list_inventory --default_inventory_file inventory/default --service jira 

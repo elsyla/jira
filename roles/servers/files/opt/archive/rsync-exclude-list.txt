@@ -1,0 +1,4 @@
+/var/tmp/rsync-exclude-list.txt
+analytics-logs
+export
+log

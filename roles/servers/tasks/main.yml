@@ -1,0 +1,63 @@
+---
+- name: stop {{ service }} service
+  systemd:
+    state: stopped
+    name: jira.service
+  ignore_errors: True
+- name: create jira dirs
+  file: 
+    path: "{{ item.path }}"
+    state: directory
+    mode: 0777
+  with_items:
+    - { path: "/opt/atlassian" }
+    - { path: "/opt/atlassian/jira" }
+- name: copy over archive
+  copy:
+    src: opt/archive/
+    dest: /opt/archive/
+- name: install jira
+  unarchive: 
+    remote_src: yes
+    src: /opt/archive/atlassian-jira-software-7.1.0-jira-7.1.0.tar.gz
+    #src: /opt/archive/atlassian-jira-software-7.2.7.tar.gz
+    dest: /opt/atlassian/jira
+    extra_opts: --strip-components=1
+    owner: jira
+    group: jira
+    mode: u=rwx,go-rwx
+- name: remove windows *.bat files
+  command: find /opt/atlassian/jira/ -name "*.bat" -exec rm -f {} \;
+- name: create jira home
+  file:
+    path: /opt/atlassian/jira-data
+    state: directory
+    owner: jira
+    group: jira
+    mode: u=rwx,go-rwx
+  ignore_errors: True
+- name: remove check-java.sh
+  file:
+    path: /opt/atlassian/jira/bin/check-java.sh
+    state: absent
+- name: copy files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: "opt/atlassian/jira/", dest: "/opt/atlassian/jira/", owner: "jira", group: "jira", mode: "u=rwx,go-rwx" }
+    - { src: "opt/atlassian/jira-data/", dest: "/opt/atlassian/jira-data/", owner: "jira", group: "jira", mode: "u=rwx,go-rwx" }
+    - { src: ".bash_profile", dest: "/home/jira/", owner: "jira", group: "jira", mode: "0766" }
+    - { src: "etc/init.d/", dest: "/etc/init.d/", owner: "jira", group: "jira", mode: "0755" }
+    - { src: "etc/logrotate.d/", dest: "/etc/logrotate.d/", owner: "root", group: "root", mode: "0644" }
+    - { src: "etc/systemd/system/", dest: "/etc/systemd/system/", owner: "root", group: "root", mode: "0755" }
+- name: configure environments
+  script: ./admin/configure_environments.py
+- name: start jira service
+  systemd:
+    name: jira.service
+    enabled: yes
+    state: started

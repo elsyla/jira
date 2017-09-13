@@ -1,0 +1,8 @@
+---
+- hosts: dbservers
+  become: yes
+  become_user: postgres
+  become_method: sudo
+  tasks:
+  - name: backup database
+    shell: pg_dump jiradb | bzip2 > /var/lib/pgsql/jiradb.inactive.dump

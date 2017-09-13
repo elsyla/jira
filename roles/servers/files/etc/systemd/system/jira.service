@@ -1,0 +1,12 @@
+[Unit]
+Description=Jiraenduser service
+
+[Service]
+Type=forking
+User=jira
+Group=jira
+ExecStart=/etc/init.d/jira start
+ExecStop=/etc/init.d/jira stop
+
+[Install]
+WantedBy=multi-user.target

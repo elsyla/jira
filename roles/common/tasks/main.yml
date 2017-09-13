@@ -1,0 +1,11 @@
+---
+- name: copy inventory
+  copy:
+    src: /var/tmp/{{ service }}-service.inventory
+    dest: /var/tmp/
+#- name: disable etch
+  #lineinfile:
+    #dest: /var/etch/disable_etch
+    #line: '# PIT team owned and managed server'
+    #state: present
+    #create: yes

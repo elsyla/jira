@@ -1,0 +1,7 @@
+---
+- hosts: servers
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: backup jira data
+    command: rsync -avhq /opt/atlassian/jira-data/ /opt/atlassian/jira-data.archive --exclude-from /opt/archive/rsync-exclude-list.txt

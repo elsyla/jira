@@ -1,0 +1,14 @@
+---
+- hosts: servers
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: copy files
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: "{{ item.owner }}"
+      group: "{{ item.group }}"
+      mode: "{{ item.mode }}"
+    with_items:
+      - { src: "../projects/common/scripts/", dest: "/opt/atlassian/jira-data/scripts/", owner: "jira", group: "jira", mode: "0666" }
